@@ -600,5 +600,20 @@ describe('ngClick (touch)', function() {
 
       expect(called).toEqual(true);
     }));
+
+    it('should be of MouseEvent type click', inject(function($rootScope, $compile) {
+      var eventType;
+
+      element = $compile('<a ng-click="" ></a>')($rootScope);
+
+      element.on('click', function(event) {
+        eventType = event.type;
+      });
+
+      browserTrigger(element, 'touchstart');
+      browserTrigger(element, 'touchend');
+
+      expect(eventType).toEqual('click');
+    }));
   });
 });

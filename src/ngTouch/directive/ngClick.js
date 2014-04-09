@@ -254,7 +254,13 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
         }
 
         if (!angular.isDefined(attr.disabled) || attr.disabled === false) {
-          element.triggerHandler('click', [event]);
+          var clickEvent = new MouseEvent('click');
+          if (document.dispatchEvent) {
+            element[0].dispatchEvent(clickEvent);
+          } else {
+            // for IE
+            element[0].fireEvent("onclick", clickEvent);
+          }
         }
       }
 
@@ -287,4 +293,3 @@ ngTouch.directive('ngClick', ['$parse', '$timeout', '$rootElement',
 
   };
 }]);
-
